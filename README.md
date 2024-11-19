@@ -97,7 +97,7 @@ void initializeMQTT() {
 
 A função initializeMQTT() tenta conectar o cliente MQTT ao servidor. Caso a conexão falhe, ele tentará novamente após um atraso de 5 segundos.
 
-- Função Setup:
+**6. Função Setup:**
 void setup() {
     Serial.begin(115200);         // Inicializa a comunicação serial
     pinMode(buzzerPin, OUTPUT);   // Define o pino do buzzer como saída
@@ -112,7 +112,7 @@ void setup() {
 
 No setup(), o código inicializa a comunicação serial e os pinos para o buzzer. Os nomes dos feeds MQTT são configurados para incluir o nome de usuário. Em seguida, as funções de inicialização Wi-Fi e MQTT são chamadas.
 
-- Função Loop:
+**7. Função Loop:**
 void loop() {
     if (!mqtt.connected()) {
         initializeMQTT();  // Reconnecta ao MQTT se a conexão cair
