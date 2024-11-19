@@ -11,14 +11,14 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
 - Dados publicados em tópicos MQTT para visualização remota.
 
 
-## Requisitos:
+### Requisitos:
 - Placa de desenvolvimento: NodeMCU ESP8266.
 - Sensor LDR.
 - Buzzer.
 - Broker MQTT
 
 
-## Instruções de Uso:
+### Instruções de Uso:
 1. Conecte o NodeMCU à sua rede Wi-Fi.
 2. Configure o broker MQTT no código.
 3. Carregue o código no NodeMCU e execute.
@@ -27,7 +27,7 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
 ### Código e Documentação
 
 
-## Hardware Utilizado:
+### Hardware Utilizado:
 - **Plataforma de desenvolvimento:** NodeMCU ESP8266.
 - **Sensor de Luz:** LDR (fotoresistor).
 - **Atuador:** Buzzer.
@@ -41,14 +41,14 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
 -![image](https://github.com/user-attachments/assets/99541bc3-649f-4726-a22d-2098c91ffc88)
 
 
-## Comunicação MQTT:
+### Comunicação MQTT:
 - O projeto utiliza o protocolo MQTT para enviar dados de luminosidade e status de brilho.
 - **Tópicos utilizados:**
   - `light-data`: Para enviar os valores de luminosidade do sensor.
   - `light-status`: Para enviar o status de brilho (Nível Alto ou Nível Normal).
 
 
-## Configuração do Broker MQTT:
+### Configuração do Broker MQTT:
 - O broker MQTT pode ser configurado para receber dados em tempo real.
 
 
