@@ -1,10 +1,10 @@
 # Sistema de Monitoramento de Luz
 
-### Introdução
+### Introdução:
 Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade de luz e acionar o buzzer quando os níveis de luminosidade estiverem acima do limite determinado. O sistema publica os dados de luminosidade e status de brilho em tempo real usando o protocolo MQTT.
 
 
-### Funcionalidades
+### Funcionalidades:
 - Monitoramento da intensidade de luz com sensor LDR.
 - Acionamento do buzzer em caso de luminosidade excessiva.
 - Comunicação em tempo real via protocolo MQTT com um broker.
@@ -71,7 +71,7 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
 - intervalLightNormal: intervalo para verificar o status de luz normal e publicar novamente.
   
 
-**5. Funções de Inicialização**
+**5. Funções de Inicialização:**
 - Conexão Wi-Fi:
 A função initializeWiFi() tenta conectar o ESP8266 à rede Wi-Fi usando o SSID e a senha definidos. Enquanto não houver conexão, o código exibe um sinal "-" no console.
 
@@ -130,7 +130,7 @@ A função initializeMQTT() tenta conectar o cliente MQTT ao servidor. Caso a co
 - O broker MQTT pode ser configurado para receber dados em tempo real.
 
 
-### Interfaces e Protocolos de Comunicação
+### Interfaces e Protocolos de Comunicação:
 Protocolo/Interface: MQTT (Message Queuing Telemetry Transport).
 Função: Comunicação de dados.
 Detalhes: Utilizado para enviar os dados do sensor de luminosidade e o status de brilho. O ESP8266 publica mensagens em tópicos MQTT que podem ser lidas por outros dispositivos ou sistemas.
@@ -144,7 +144,7 @@ Função: Interface de rede local.
 Detalhes:O ESP8266 utiliza o Wi-Fi como interface para acessar a internet e se comunicar com o broker MQTT via TCP/IP.
 
 
-### Protocolo MQTT e Comunicação TCP/IP
+### Protocolo MQTT e Comunicação TCP/IP:
 O ESP8266 utiliza o protocolo MQTT para se comunicar com um broker MQTT e enviar os dados do sensor de luminosidade e o status (alto ou normal) da luz. O código que você forneceu usa a biblioteca Adafruit_MQTT para implementar a comunicação MQTT no ESP8266. No código, o dispositivo se conecta a um broker MQTT e publica dados em tópicos específicos para monitoramento remoto.
 
 O ESP8266 se conecta à rede Wi-Fi usando o protocolo TCP/IP, estabelecendo uma comunicação através da rede.
