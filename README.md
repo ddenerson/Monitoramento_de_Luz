@@ -4,7 +4,6 @@
 Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade de luz e acionar o buzzer quando os níveis de luminosidade estiverem acima do limite determinado. O sistema publica os dados de luminosidade e status de brilho em tempo real usando o protocolo MQTT.
 
 
-
 ### Funcionalidades
 - Monitoramento da intensidade de luz com sensor LDR.
 - Acionamento do buzzer em caso de luminosidade excessiva.
@@ -26,17 +25,51 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
   
 
 ### Documentação:
-**1. Inclusão das Bibliotecas**
-As bibliotecas são necessárias para a comunicação com o Wi-Fi e o broker MQTT. O ESP8266 será usado para se conectar a uma rede sem fio e enviar dados para um broker MQTT
+**1. Inclusão das Bibliotecas:** 
+- As bibliotecas fazem a comunicação com o Wi-Fi e o broker MQTT.
+- O ESP8266 é utilizado para se conectar a uma rede sem fio e enviar dados para um broker MQTT.
 
-**2. Definição de Variáveis e Parâmetros**
-Configuradas as credenciais de Wi-Fi e as informações de conexão do MQTT (endereço, porta, usuário e chave). Também são definidos os pinos para o sensor de luminosidade (que usa leitura analógica) e o buzzer, além dos limites de luminosidade.
+***No Código:***
+- ESP8266WiFi.h: é a biblioteca que permite a conexão do microcontrolador ESP8266 com redes Wi-Fi.
+- Adafruit_MQTT.h e Adafruit_MQTT_Client.h: são as bibliotecas que implementam o protocolo MQTT para comunicação entre o microcontrolador e um servidor MQTT.
 
-**3. Objetos MQTT**
-Aqui são criados objetos para o cliente Wi-Fi e o cliente MQTT. As variáveis lightDataFeedName e lightStatusFeedName definem os tópicos para onde os dados serão enviados no broker MQTT.
 
-**4. Flags e Controle de Tempo**
-A variável excessiveBrightness é usada para rastrear se o brilho está acima do limite. A variável previousLightMillis é usada para controlar o intervalo de tempo para o envio do status de luminosidade normal.
+**2. Definição de Variáveis e Parâmetros:**
+- Configuração das credenciais de Wi-Fi e as informações de conexão do MQTT (endereço, porta, usuário e chave).  
+- São definidos os pinos para o sensor de luminosidade, o buzzer e os limites de luminosidade.
+  
+***No Código:***
+- wifiSSID e wifiPassword: armazenam as credenciais da rede Wi-Fi.
+- mqttServer: endereço do servidor MQTT ao qual o ESP8266 se conectará.
+- mqttPort: porta do servidor MQTT (geralmente 1883 para conexões sem criptografia).
+- mqttUser e mqttKey: credenciais para autenticação no servidor MQTT.
+- sensorPin: pino analógico A0, onde está conectado o sensor de luz (LDR).
+- buzzerPin: pino D3, onde está conectado o buzzer (atuador sonoro).
+- brightnessLimit: limite de luminosidade para acionar o buzzer em níveis elevados de luz.
+- normalLimit: limite de luminosidade para normalizar a condição do sistema, desativando o buzzer.
+
+
+**3. Objetos MQTT:**
+- São criados objetos para o cliente Wi-Fi e o cliente MQTT.
+- As variáveis lightDataFeedName e lightStatusFeedName definem os tópicos para onde os dados serão enviados no broker MQTT.
+
+***No Código:***
+- WiFiClient wifiClient: responsável pela conexão com a rede Wi-Fi.
+- Adafruit_MQTT_Client mqtt: representa o cliente MQTT que gerencia a comunicação com o servidor MQTT, utilizando as credenciais passadas.
+- lightDataFeedName e lightStatusFeedName: variáveis para armazenar os tópicos onde os dados serão publicados no servidor MQTT.
+- lightLevelFeed: objeto MQTT para publicar os valores do sensor de luminosidade.
+- lightStatusFeed: objeto MQTT para publicar o status da luminosidade (normal ou alta).
+
+
+**4. Flags e Controle de Tempo:**
+- A variável excessiveBrightness é usada para rastrear se o brilho está acima do limite.
+- A variável previousLightMillis é usada para controlar o intervalo de tempo para o envio do status de luminosidade normal.
+
+***No Código:***
+- excessiveBrightness: variável de controle para indicar se a luminosidade está acima do limite e o buzzer foi ativado.
+- previousLightMillis: armazena o tempo da última vez que o status da luz foi publicado.
+- intervalLightNormal: intervalo para verificar o status de luz normal e publicar novamente.
+  
 
 **5. Funções de Inicialização**
 - Conexão Wi-Fi:
@@ -46,10 +79,30 @@ A função initializeWiFi() tenta conectar o ESP8266 à rede Wi-Fi usando o SSID
 A função initializeMQTT() tenta conectar o cliente MQTT ao servidor. Caso a conexão falhe, ele tentará novamente após um atraso de 5 segundos.
 
 **6. Função Setup:**
-No setup(), o código inicializa a comunicação serial e os pinos para o buzzer. Os nomes dos feeds MQTT são configurados para incluir o nome de usuário. Em seguida, as funções de inicialização Wi-Fi e MQTT são chamadas.
+- Setup(), o código inicializa a comunicação serial e os pinos para o buzzer.
+- Os nomes dos feeds MQTT são configurados para incluir o nome de usuário e as funções de inicialização Wi-Fi e MQTT são chamadas.
+
+***No Código:***
+- Serial.begin(115200): inicializa a comunicação serial a 115200 bps para monitoramento do projeto.
+- pinMode(buzzerPin, OUTPUT): configura o pino do buzzer como saída.
+- digitalWrite(buzzerPin, LOW): desativa o buzzer.
+- snprintf(): cria os tópicos de publicação com base no nome de usuário MQTT.
+
 
 **7. Função Loop:**
-O loop() executa as tarefas principais de leitura do sensor de luminosidade, envio de dados via MQTT, controle do buzzer e verificação de status. Ele também se reconecta automaticamente ao servidor MQTT se a conexão for perdida. O status do brilho (alto ou normal) é enviado periodicamente.
+- Loop() executa as tarefas principais de leitura do sensor de luminosidade, envio de dados via MQTT, controle do buzzer e verificação de status. Se reconecta automaticamente ao servidor MQTT se a conexão for perdida.
+- O status do brilho (alto ou normal) é enviado periodicamente.
+
+***No Código:***
+- mqtt.connected(): verifica se o ESP8266 está conectado ao servidor MQTT. Caso contrário, tenta reconectar.
+- analogRead(sensorPin): lê o valor analógico do sensor de luminosidade.
+- reversedReading = 1000 - lightReading: inverte o valor da leitura para corrigir o comportamento do sensor de luminosidade.
+- lightLevelFeed.publish(reversedReading): publica a leitura do sensor no tópico MQTT.
+- lightReading < brightnessLimit: se a leitura de luz estiver abaixo do limite de brilho excessivo, ativa o buzzer e publica o status "Nível Alto".
+- lightReading > normalLimit: se a leitura de luz estiver acima do limite normal e o buzzer estiver ativado, desativa o buzzer e publica "Nível Normal".
+- millis(): usa o tempo atual para garantir que o status de "Nível Normal" seja publicado a cada 5 segundos.
+- mqtt.processPackets(10): processa pacotes de comunicação MQTT.
+- delay(5000): aguarda 5 segundos antes de fazer a próxima leitura.
 
 
 ### Hardware Utilizado:
