@@ -25,7 +25,7 @@ Este projeto utiliza um sensor LDR (fotoresistor) para monitorar a intensidade d
 3. Carregue o código no NodeMCU e execute.
   
 
-### Código e Documentação:
+### Documentação:
 **1. Inclusão das Bibliotecas**
 As bibliotecas são necessárias para a comunicação com o Wi-Fi e o broker MQTT. O ESP8266 será usado para se conectar a uma rede sem fio e enviar dados para um broker MQTT
 
