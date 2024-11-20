@@ -115,8 +115,12 @@ A função initializeMQTT() tenta conectar o cliente MQTT ao servidor. Caso a co
   - Fonte de alimentação para o NodeMCU.
 
 
-## Diagrama de Circuito:
+### Fluxograma:
 -![image](https://github.com/user-attachments/assets/99541bc3-649f-4726-a22d-2098c91ffc88)
+
+
+### Circuito:
+![image](https://github.com/user-attachments/assets/d048202c-cf6d-4ede-b352-0ed409661a4b)
 
 
 ### Comunicação MQTT:
@@ -151,3 +155,11 @@ O ESP8266 se conecta à rede Wi-Fi usando o protocolo TCP/IP, estabelecendo uma 
 Uma vez conectado ao Wi-Fi, o ESP8266 utiliza o protocolo TCP/IP para se conectar ao broker MQTT e enviar as mensagens.
 
 Uma vez conectado, as mensagens MQTT são transmitidas entre o ESP8266 e o broker MQTT via TCP/IP, permitindo que o dispositivo envie os dados do sensor e receba comandos ou informações de outros dispositivos (caso configurado).
+
+
+## Artigo:
+[A4 - Objetos.pdf](https://github.com/user-attachments/files/17822949/A4.-.Objetos.pdf)
+
+
+## Link do vídeo:
+https://www.youtube.com/watch?v=GvMV1MD0YHQ&feature=youtu.be
